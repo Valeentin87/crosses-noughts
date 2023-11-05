@@ -29,6 +29,9 @@ class Player:
                     print(f' в проверяемой строке {variant} у игрока {self.name} {count} совпадений')
                     if count==3: 
                         print("выигрыш")
+                        view_status_player_lab["text"]=""
+                        winner_lab["text"]=f"Выиграл {self.name}"
+                        winner_lab.configure(fg="green", font=("Arial", 18, "bold"))
                         return f'выиграл {self.name}'
                     
         return ""        
@@ -88,11 +91,11 @@ def return_choose(event):
     if valentin.name == "крестики":
         first_figure_lab.config(image=cross, text = "")
         second_figure_lab.config(image=zero, text = "")
-        view_status_player_lab.configure(text=f'{valentin.name}', fg="green", font=("Arial", 16))
+        view_status_player_lab.configure(text=f'ходит {valentin.name}', fg="green", font=("Arial", 16))
     else:
         first_figure_lab.config(image=zero, text = "")
         second_figure_lab.config(image=cross, text = "")
-        view_status_player_lab.configure(text=f'{leonid.name}', fg="green", font=("Arial", 16))
+        view_status_player_lab.configure(text=f'ходит {leonid.name}', fg="green", font=("Arial", 16))
     #first_figure_lab["text"] = f'играет за {valentin.figure}'
     #second_figure_lab["text"] = f'играет за {leonid.figure}'
    #ls2 = set(ls).difference(list(index1_int))
@@ -118,7 +121,7 @@ def get_game_status(player1, player2):
 
 def step_game(first_pl, second_pl, butt):
     if first_pl.game_status == True:
-        view_status_player_lab["text"] = f'{first_pl.name}'
+        view_status_player_lab["text"] = f'ходит {first_pl.name}'
         print(f"ходит игрок с именем {first_pl.name} ")
         change_step = butt["text"]
         butt.configure(image=first_pl.image, text='', state=DISABLED)
@@ -131,11 +134,11 @@ def step_game(first_pl, second_pl, butt):
         if result_check:
             print(result_check)
             view_status_player_lab["text"] = f'{result_check}'
-        view_status_player_lab["text"] = f'{second_pl.name}'
+        view_status_player_lab["text"] = f'ходит {second_pl.name}'
         #print(f"после нажатия статут хода {first_pl.game_status} ")
         
     elif second_pl.game_status == True:
-        view_status_player_lab["text"] = f'{second_pl.name}'
+        view_status_player_lab["text"] = f'ходит {second_pl.name}'
         print(f"ходит игрок с именем {second_pl.name} ")
         change_step = butt["text"]
         butt.configure(image=second_pl.image, text='', state=DISABLED)
@@ -144,8 +147,8 @@ def step_game(first_pl, second_pl, butt):
         result_check = second_pl.check_result()
         if result_check:
             print(result_check)
-            view_status_player_lab["text"] = f'{result_check}'
-        view_status_player_lab["text"] = f'ходит игорок с именем {first_pl.name}'
+            view_status_player_lab["text"] = f'ходит {result_check}'
+        view_status_player_lab["text"] = f'ходит  {first_pl.name}'
         second_pl.game_status = False
         first_pl.game_status = True
 
@@ -201,7 +204,10 @@ demo_second_player.pack(side=LEFT)
 view_status_player_lab = Label(demonstrate_game_frame, text="Здесь отображается имя активного игрока", wraplength=150)
 view_status_player_lab.pack(anchor=S)
 
-demonstrate_game_frame.grid(column = 2, row = 1, rowspan=2)
+winner_lab = Label(demonstrate_game_frame)
+winner_lab.pack(anchor=S)
+
+demonstrate_game_frame.grid(column = 2, row = 1, rowspan=2, sticky=NSEW)
 
 
 
